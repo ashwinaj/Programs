@@ -29,6 +29,7 @@ class Graph
             virtual ~Graph()
             {
                 delete[] adjacencyList;
+                delete[] parent;
             }
 
             void BFS(int aInStartNode);
