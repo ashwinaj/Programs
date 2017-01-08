@@ -6,8 +6,7 @@
 
 using namespace std;
 
-struct node
-{
+struct node {
     int data;
     struct node* left;
     struct node* right;
@@ -15,50 +14,51 @@ struct node
 
 class Tree
 {
-    public:
-        
-        Tree(){ root = NULL;}
-        virtual ~Tree()
-        {
-            removeTree(root);
-        }
+public:
 
-        int insertNode(int aInData);
-        int deleteNode(int aInData);
-        void printInOrder(struct node* aInRoot);
-        void printIterativeInOrder();
-        void printPreOrder(struct node* aInRoot);
-        void printPostOrder();
-        void removeTree(struct node* aInNode);
-        struct node* findSuccessor(int aInData);
-        struct node* findPath(struct node* aInNode1, struct node* aInNode2);
-        struct node * getRoot(){ return root;}
-        struct node* findNode(struct node* aInNode, int aInData);
-        struct node* getNode(int aInData);
-        void treeToList();
-        struct node* treeToListUtility(struct node* aInNode);
-        struct node* treeToListAppend(struct node* aInNode1, struct node* aInNode2);
-        void PrintList(struct node* aInNode);
-        void findMaxPath();
-        bool printMaxPath(struct node* node, struct node* aInTarget);
-        void findMaxPathHelper(struct node* aInNode, int aInCurrentSum, int& aInMaxSum, struct node*& aInOutTargetNode);
-    private:
-        struct node* root;
-        struct node* addNode(struct node* aInNode, int aInData);
-        struct node* deleteNodeHelper(struct node* aInNode, int aInData);
-        struct node* newNode(int aInData);
-        struct node* minNode(struct node* aInNode);
-        //struct node* findNode(struct node* aInNode, int aInData);
-        struct node* getParent(struct node* aInNode);
+    Tree() { root = NULL;}
+    virtual ~Tree()
+    {
+        removeTree(root);
+    }
+
+    int insertNode(int aInData);
+    int deleteNode(int aInData);
+    void printInOrder(struct node* aInRoot);
+    void printIterativeInOrder();
+    void printPreOrder(struct node* aInRoot);
+    void printPostOrder();
+    void removeTree(struct node* aInNode);
+    struct node* findSuccessor(int aInData);
+    struct node* findPath(struct node* aInNode1, struct node* aInNode2);
+    struct node * getRoot() { return root;}
+    struct node* findNode(struct node* aInNode, int aInData);
+    struct node* getNode(int aInData);
+    void treeToList();
+    struct node* treeToListUtility(struct node* aInNode);
+    struct node* treeToListAppend(struct node* aInNode1, struct node* aInNode2);
+    void PrintList(struct node* aInNode);
+    void findMaxPath();
+    bool printMaxPath(struct node* node, struct node* aInTarget);
+    void findMaxPathHelper(struct node* aInNode, int aInCurrentSum, int& aInMaxSum,
+                           struct node*& aInOutTargetNode);
+private:
+    struct node* root;
+    struct node* addNode(struct node* aInNode, int aInData);
+    struct node* deleteNodeHelper(struct node* aInNode, int aInData);
+    struct node* newNode(int aInData);
+    struct node* minNode(struct node* aInNode);
+    //struct node* findNode(struct node* aInNode, int aInData);
+    struct node* getParent(struct node* aInNode);
 };
 
 bool Tree::printMaxPath(struct node* node, struct node* aInTarget)
 {
-    if(node == NULL)
+    if (node == NULL)
         return false;
 
-    if(node == aInTarget || printMaxPath(node->left, aInTarget) || printMaxPath(node->right, aInTarget))
-    {
+    if (node == aInTarget || printMaxPath(node->left, aInTarget)
+            || printMaxPath(node->right, aInTarget)) {
         cout<<node->data<<" ";
         return true;
     }
@@ -77,16 +77,16 @@ void Tree::findMaxPath()
     printMaxPath(root, targetNode);
 }
 
-void Tree::findMaxPathHelper(struct node* aInNode, int aInCurrentSum, int& aInMaxSum, struct node*& aInOutTargetNode)
+void Tree::findMaxPathHelper(struct node* aInNode, int aInCurrentSum,
+                             int& aInMaxSum, struct node*& aInOutTargetNode)
 {
-    if(aInNode ==  NULL)
+    if (aInNode ==  NULL)
         return;
 
     aInCurrentSum += aInNode->data;
 
-    if(aInNode->left == NULL && aInNode->right == NULL)
-    {
-        if(aInCurrentSum > aInMaxSum)
+    if (aInNode->left == NULL && aInNode->right == NULL) {
+        if (aInCurrentSum > aInMaxSum)
             aInMaxSum = aInCurrentSum;
 
         aInOutTargetNode = aInNode;
@@ -94,19 +94,21 @@ void Tree::findMaxPathHelper(struct node* aInNode, int aInCurrentSum, int& aInMa
         return;
     }
 
-    if(aInCurrentSum > aInMaxSum)
+    if (aInCurrentSum > aInMaxSum) {
         aInMaxSum = aInCurrentSum;
+    }
 
     findMaxPathHelper(aInNode->left, aInCurrentSum, aInMaxSum, aInOutTargetNode);
     findMaxPathHelper(aInNode->right, aInCurrentSum, aInMaxSum, aInOutTargetNode);
-    
+
 
 }
 
 struct node* Tree::treeToListUtility(struct node* aInNode)
 {
-    if(aInNode == NULL)
+    if (aInNode == NULL) {
         return NULL;
+    }
 
     struct node* list1 = treeToListUtility(aInNode->left);
     struct node* list2 = treeToListUtility(aInNode->right);
@@ -114,18 +116,20 @@ struct node* Tree::treeToListUtility(struct node* aInNode)
     aInNode->right = aInNode;
     list1 = treeToListAppend(list1, aInNode);
     list1 = treeToListAppend(list1, list2);
-    
+
     return list1;
 }
 
 struct node* Tree::treeToListAppend(struct node* a, struct node* b)
 {
 
-    if(a==NULL) 
+    if (a==NULL) {
         return b;
+    }
 
-    if(b==NULL) 
+    if (b==NULL) {
         return a;
+    }
 
     struct node *aLeft=a->left;
     struct node *bLeft=b->left;
@@ -134,8 +138,6 @@ struct node* Tree::treeToListAppend(struct node* a, struct node* b)
     a->left=bLeft;
     bLeft->right=a;
     return a;
-
-
 }
 
 
@@ -144,7 +146,7 @@ void Tree::treeToList()
     struct node* tmp = treeToListUtility(root);
     struct node* tmpLeft = tmp->left;
     tmp->left->right = NULL;
-    
+
     PrintList(tmp);
 }
 
@@ -152,8 +154,7 @@ void Tree::treeToList()
 void Tree::PrintList(struct node* aInNode)
 {
     cout<<endl<<"List is: ";
-    while(aInNode)
-    {
+    while (aInNode) {
         cout<<aInNode->data<<endl;
         aInNode = aInNode->right;
     }
@@ -163,18 +164,18 @@ void Tree::PrintList(struct node* aInNode)
 struct node* Tree::getParent(struct node* aInNode)
 {
     struct node* temp = root;
-    if(!aInNode)
-      return NULL;
+    if (!aInNode) {
+        return NULL;
+    }
 
-    while(temp)
-    {
-        if(temp->right == aInNode || temp->left == aInNode)
+    while (temp) {
+        if (temp->right == aInNode || temp->left == aInNode) {
             return temp;
-        else
-        if(temp->data > aInNode->data)
+        } else if (temp->data > aInNode->data) {
             temp = temp->left;
-        else
+        } else {
             temp = temp->right;
+        }
     }
 }
 
@@ -189,106 +190,95 @@ struct node* Tree::findPath(struct node* aInNode1, struct node* aInNode2)
     struct node* node1 = NULL;
     struct node* node2 = NULL;
 
-    while(temp)
-    {
-       if(temp->data > aInNode1->data)
+    while (temp) {
+        if (temp->data > aInNode1->data) {
             temp = temp->left;
-       else
-        if(temp->data < aInNode1->data)
+        } else if (temp->data < aInNode1->data) {
             temp = temp->right;
-       else
-       { 
-         //depth1++;
-         break;
-       }
+        } else {
+            //depth1++;
+            break;
+        }
 
-       depth1++;
+        depth1++;
     }
 
     temp = root;
-    while(temp)
-    {
-       if(temp->data > aInNode2->data)
+    while (temp) {
+        if (temp->data > aInNode2->data) {
             temp = temp->left;
-       else
-        if(temp->data < aInNode2->data)
+        } else if (temp->data < aInNode2->data) {
             temp = temp->right;
-       else
-       {
-         //depth2++;
-         break;
-       }
+        } else {
+            //depth2++;
+            break;
+        }
 
-       depth2++;
+        depth2++;
     }
 
     node1 = aInNode1;
     node2 = aInNode2;
-    
-    if(depth1 < depth2)
-    {
-      // Move aInNode2 up to the level of aInNode1
-      struct node* temp = aInNode2;
-      while(depth2 != depth1)
-      {
-        st.push(temp);
-        temp =getParent(temp);
-        node2 = temp;
-        depth2--;
-      }
 
-      //node2 = temp;
-    }
-    else
-    {
-      struct node* temp = aInNode1;
-       while(depth1 != depth2)
-       {
-         l.push_back(temp);
-         temp = getParent(temp);
-         node1 = temp;
-         depth1--;
-       }
+    if (depth1 < depth2) {
+        // Move aInNode2 up to the level of aInNode1
+        struct node* temp = aInNode2;
+        while (depth2 != depth1) {
+            st.push(temp);
+            temp =getParent(temp);
+            node2 = temp;
+            depth2--;
+        }
 
-       //node1 = temp;    
+        //node2 = temp;
+    } else {
+        struct node* temp = aInNode1;
+        while (depth1 != depth2) {
+            l.push_back(temp);
+            temp = getParent(temp);
+            node1 = temp;
+            depth1--;
+        }
+
+        //node1 = temp;
     }
-    
-    if(!node1)
+
+    if (!node1) {
         node1 = getRoot();
+    }
 
-    if(!node2)
+    if (!node2) {
         node2 = getRoot();
+    }
 
     // Move node1 and node2 simultaneously until they meet
-    while(node1 != node2)
-    {
-       if(node1 != getRoot())
-       {
-           if(node1 != NULL)
-             l.push_back(node1);
-           else
-            node1 = getRoot();
+    while (node1 != node2) {
+        if (node1 != getRoot()) {
+            if (node1 != NULL) {
+                l.push_back(node1);
+            } else {
+                node1 = getRoot();
+            }
+            node1 = getParent(node1);
+            if (node1 == getRoot()) {
+                l.push_back(node1);
+            }
+        }
 
-           node1 = getParent(node1);
-           if(node1 == getRoot())
-            l.push_back(node1);
-       }
+        if (node2 != getRoot()) {
+            if (node2 != NULL) {
+                st.push(node2);
+            } else {
+                node2 = getRoot();
+            }
 
-       if(node2 != getRoot())
-       {
-           if(node2 != NULL)
-             st.push(node2);
-           else
-             node2 = getRoot();
-
-           node2 = getParent(node2);
-       }
+            node2 = getParent(node2);
+        }
 
     }
 
     // Add the nodes from the stack to the back of the queue
-    while(!st.empty())
-    {
+    while (!st.empty()) {
         struct node* stackNode = st.top();
         l.push_back(st.top());
         st.pop();
@@ -298,8 +288,7 @@ struct node* Tree::findPath(struct node* aInNode1, struct node* aInNode2)
     cout<<endl<<"Path: "<<endl;
     list<struct node*>::iterator it = l.begin();
 
-    while(it != l.end())
-    {
+    while (it != l.end()) {
         struct node* temp = *it;
         cout<<temp->data<<"  "<<endl;
         it++;
@@ -308,67 +297,54 @@ struct node* Tree::findPath(struct node* aInNode1, struct node* aInNode2)
 
 void Tree::printIterativeInOrder()
 {
-   stack<struct node*> st;
-   bool done = false;
-   struct node* temp = root;
+    stack<struct node*> st;
+    bool done = false;
+    struct node* temp = root;
 
-   if(root == NULL)
-       return;
+    if (root == NULL) {
+        return;
+    }
 
-   while(!st.empty() || temp)
-   {
-        if(temp)
-        {
+    while (!st.empty() || temp) {
+        if (temp) {
             st.push(temp);
             temp = temp->left;
-        }
-        else
-        {
+        } else {
             temp = st.top();
             st.pop();
             cout<<endl<<temp->data;
             temp = temp->right;
         }
-   }
-   
-   cout<<endl;
+    }
 
-   return;
+    cout<<endl;
+
+    return;
 }
 
 struct node* Tree::deleteNodeHelper(struct node* aInNode, int aInData)
 {
-    if(aInNode == NULL)
+    if (aInNode == NULL) {
         return NULL;
-
-    if(aInData < aInNode->data)
-    {
-        aInNode->left = deleteNodeHelper(aInNode->left, aInData);
     }
-    else
-    if(aInData > aInNode->data)
-    {
+
+    if (aInData < aInNode->data) {
+        aInNode->left = deleteNodeHelper(aInNode->left, aInData);
+    } else if (aInData > aInNode->data) {
         aInNode->right = deleteNodeHelper(aInNode->right, aInData);
     }
 
-    if(aInNode->data == aInData)
-    {
+    if (aInNode->data == aInData) {
         struct node* temp;
-        if(aInNode->left == NULL)
-        {
-           temp = aInNode->right;
-           delete(aInNode);
-           return temp; 
-        }
-        else
-        if(aInNode->right == NULL)
-        {
-           temp = aInNode->left;
-           delete(aInNode);
-           return temp; 
-        } 
-        else
-        {
+        if (aInNode->left == NULL) {
+            temp = aInNode->right;
+            delete(aInNode);
+            return temp;
+        } else if (aInNode->right == NULL) {
+            temp = aInNode->left;
+            delete(aInNode);
+            return temp;
+        } else {
             struct node* successor = findSuccessor(aInNode->left->data);
             aInNode->data = successor->data;
             aInNode->left = deleteNodeHelper(aInNode->left, aInNode->data);
@@ -378,8 +354,7 @@ struct node* Tree::deleteNodeHelper(struct node* aInNode, int aInData)
 
 int Tree::deleteNode(int aInData)
 {
-    if(root == NULL)
-    {
+    if (root == NULL) {
         cout<<"Root is NULL"<<endl;
         return -1;
     }
@@ -390,45 +365,44 @@ int Tree::deleteNode(int aInData)
 
 struct node* Tree::getNode(int aInData)
 {
-     struct node* temp = getRoot();
+    struct node* temp = getRoot();
 
-     while(temp)
-     {
-         if(temp->data < aInData)
-           temp = temp->right;
-         else
-         if(temp->data > aInData)
-           temp = temp->left;
-         else
-           return temp;
-     }
+    while (temp) {
+        if (temp->data < aInData) {
+            temp = temp->right;
+        } else if (temp->data > aInData) {
+            temp = temp->left;
+        } else {
+            return temp;
+        }
+    }
 
-     return NULL;
+    return NULL;
 }
 
 struct node* Tree::findNode(struct node* aInNode, int aInData)
 {
-     if(aInNode == NULL)
-     {
+    if (aInNode == NULL) {
         cout<<"Node not found"<<endl;
 
         return NULL;
-     }
+    }
 
-     if(aInNode->data < aInData)
-       return findNode(aInNode->left, aInData);
-     else
-     if(aInNode->data > aInData)
-       return findNode(aInNode->right, aInData);
-     else
-       return aInNode;
+    if (aInNode->data < aInData) {
+        return findNode(aInNode->left, aInData);
+    } else if (aInNode->data > aInData) {
+        return findNode(aInNode->right, aInData);
+    } else {
+        return aInNode;
+    }
 }
 
 struct node* Tree::minNode(struct node* aInNode)
 {
     // Go to the rightmost node
-    while(aInNode->left)
+    while (aInNode->left) {
         aInNode = aInNode->left;
+    }
 
     return aInNode;
 }
@@ -436,33 +410,26 @@ struct node* Tree::minNode(struct node* aInNode)
 struct node* Tree::findSuccessor(int aInData)
 {
     struct node* node = findNode(getRoot(), aInData);
-    if(node == NULL || root == NULL)
-    {
+    if (node == NULL || root == NULL) {
         cout<<"No successor exists"<<endl;
         return NULL;
     }
 
-    if(node->right != NULL)
+    if (node->right != NULL) {
         return minNode(node->right);
+    }
 
     struct node* temp = root;
     struct node* succ = root;
 
-    while(temp)
-    {
-        if(temp->data < aInData)
-        {
+    while (temp) {
+        if (temp->data < aInData) {
             temp = temp->right;
-            
-        }
-        else
-        if(temp->data > aInData)
-        {
+        } else if (temp->data > aInData) {
             succ = temp;
             temp = temp->left;
-        }
-        else
-        break;
+        } else
+            break;
     }
 
     return succ;
@@ -471,23 +438,19 @@ struct node* Tree::findSuccessor(int aInData)
 
 struct node* Tree::addNode(struct node* aInNode, int aInData)
 {
-    if(aInNode == NULL)
-    {
+    if (aInNode == NULL) {
         aInNode = newNode(aInData);
-        if(aInNode == NULL)
-        {
+        if (aInNode == NULL) {
             cout<<"Cannot allocate memeory";
 
             return NULL;
         }
-
-    }
-    else
-    {
-        if(aInNode->data >= aInData)
+    } else {
+        if (aInNode->data >= aInData) {
             aInNode->left = addNode(aInNode->left, aInData);
-        else
+        } else {
             aInNode->right = addNode(aInNode->right, aInData);
+        }
 
         return aInNode;
     }
@@ -497,8 +460,7 @@ struct node* Tree::newNode(int aInData)
 {
     struct node* temp;
     temp = new node;
-    if(temp == NULL)
-    {
+    if (temp == NULL) {
         cout<<"Cannot allocate memeory";
 
         return NULL;
@@ -506,75 +468,75 @@ struct node* Tree::newNode(int aInData)
 
     temp->data = aInData;
     temp->left = temp->right = NULL;
-      
+
 }
 
 int Tree::insertNode(int aInData)
 {
     root = addNode(root, aInData);
 
-    if(root == NULL)
+    if (root == NULL) {
         return -1;
+    }
 
     return 0;
 }
 
 void Tree::printInOrder(struct node* aInNode)
 {
-   if(aInNode == NULL)
-   {
+    if (aInNode == NULL) {
         return;
-   }
+    }
 
-   printInOrder(aInNode->left);
-   cout<<aInNode->data<<endl;
-   printInOrder(aInNode->right);
+    printInOrder(aInNode->left);
+    cout<<aInNode->data<<endl;
+    printInOrder(aInNode->right);
 
-   return;
+    return;
 
 
 }
 
 void Tree::printPreOrder(struct node* aInNode)
 {
-   if(aInNode == NULL)
-   {
+    if (aInNode == NULL) {
         return;
-   }
+    }
 
-   cout<<aInNode->data<<endl;
-   printPreOrder(aInNode->left);
-   printPreOrder(aInNode->right);
+    cout<<aInNode->data<<endl;
+    printPreOrder(aInNode->left);
+    printPreOrder(aInNode->right);
 
-   return;
+    return;
 
 
 }
 
 void Tree::printPostOrder()
 {
-    if(root == NULL)
+    if (root == NULL) {
         return;
+    }
 
     stack<struct node*> s1, s2;
 
     s1.push(root);
 
-    while(!s1.empty())
-    {
+    while (!s1.empty()) {
         struct node* temp = s1.top();
         s1.pop();
-        
+
         s2.push(temp);
-        if(temp->left)
+        if (temp->left) {
             s1.push(temp->left);
-        
-        if(temp->right)
+        }
+
+        if (temp->right) {
             s1.push(temp->right);
+        }
     }
 
-    while(!s2.empty())
-    {
+    while (!s2.empty()) {
         struct node* temp = s2.top();
         cout<<temp->data<<endl;
         s2.pop();
@@ -583,7 +545,7 @@ void Tree::printPostOrder()
 
 void Tree::removeTree(struct node* aInNode)
 {
-    if(aInNode == NULL)
+    if (aInNode == NULL)
         return;
 
     removeTree(aInNode->right);
@@ -616,7 +578,7 @@ int main()
     //struct node* temp = t.findSuccessor(5);
     //cout<<"successor: "<<temp->data<<endl;
     //cout<<endl<<endl;
-    //t.printPostOrder();    
+    //t.printPostOrder();
     //t.findPath(t.getNode(3), t.getNode(20));
 
     //t.treeToList();

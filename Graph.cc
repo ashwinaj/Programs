@@ -58,12 +58,10 @@ void Graph::DFSUtil(int aInStartNode, bool *visited)
 
    visited[aInStartNode] = true;
    cout<<aInStartNode<< " ";
-   
+
    vector<int>::iterator it;
-   for(it = adjacencyList[aInStartNode].begin(); it != adjacencyList[aInStartNode].end();it++)
-   {
-        if(!visited[*it])
-        {
+   for(it = adjacencyList[aInStartNode].begin(); it != adjacencyList[aInStartNode].end();it++) {
+        if(!visited[*it]) {
             parent[*it] = aInStartNode;
             DFSUtil(*it, visited);
         }
@@ -75,8 +73,7 @@ void Graph::DFS(int aInStartNode)
    bool * visited;
    visited = new bool[vertices];
 
-   for(int i =0;i<vertices;i++)
-   {
+   for(int i =0;i<vertices;i++) {
         visited[i] = false;
    }
 
@@ -88,7 +85,7 @@ void Graph::BFS(int aInStartNode)
 {
     queue<int> q;
     bool *visited;
-    
+
     visited = new bool[vertices];
 
     for(int i =0;i<vertices;i++)
@@ -97,18 +94,15 @@ void Graph::BFS(int aInStartNode)
     visited[aInStartNode] = true;
     q.push(aInStartNode);
 
-    while(!q.empty())
-    {
+    while(!q.empty()) {
         int v = q.front();
         q.pop();
         cout<<v<< " ";
 
         // add all the edge nodes for v
         vector<int>::iterator it = adjacencyList[v].begin();
-        while(it != adjacencyList[v].end())
-        {
-            if(visited[*it] != true)
-            {
+        while(it != adjacencyList[v].end()) {
+            if(visited[*it] != true) {
                 visited[*it] = true;
                 parent[*it] = v;
                 q.push(*it);
@@ -116,7 +110,6 @@ void Graph::BFS(int aInStartNode)
 
             it++;
         }
-        
     }
 }
 
@@ -133,21 +126,18 @@ void Graph::findPath(int aInStartNode, int aInEndNode)
     int end = aInEndNode;
     st.push(aInEndNode);
 
-    while(parent[aInEndNode] != -1)
-    {
+    while(parent[aInEndNode] != -1) {
         st.push(parent[aInEndNode]);
         aInEndNode = parent[aInEndNode];
     }
 
-    if(st.size() == 1)
-    {
+    if(st.size() == 1) {
         cout<<" No path from "<<aInStartNode<<" to "<<end<<endl;
         return;
 
     }
-    cout<<endl<<"Path from "<<aInStartNode<<" to "<<end; 
-    while(!st.empty())
-    {
+    cout<<endl<<"Path from "<<aInStartNode<<" to "<<end;
+    while(!st.empty()) {
         cout<<endl<<st.top()<<endl;
         st.pop();
     }
